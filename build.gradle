@@ -1,0 +1,63 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+
+apply plugin: 'java'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+
+    // Javalin for lightweight REST APIs
+    implementation("io.javalin:javalin:6.5.0")
+
+    // HikariCP for efficient database connection pooling
+    implementation("com.zaxxer:HikariCP:5.1.0")
+
+    // JDBC Driver
+    implementation("com.h2database:h2:2.2.224")
+
+    // Logging
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation("org.slf4j:slf4j-simple:2.0.9")
+
+    //Db migration
+    implementation("org.liquibase:liquibase-core:4.26.0")
+
+    compileOnly('org.projectlombok:lombok')
+
+    annotationProcessor('org.projectlombok:lombok')
+
+    testImplementation('org.junit.jupiter:junit-jupiter:5.12.0')
+    testImplementation('org.jeasy:easy-random-core:5.0.0')
+    testImplementation('org.assertj:assertj-core:3.25.1')
+
+    testAnnotationProcessor('org.projectlombok:lombok')
+
+    testCompileOnly('org.projectlombok:lombok')
+
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+
+}
+
+application {
+    mainClass.set("kz.nkoldassov.stocktrading.StockTradingServiceApplication")
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
