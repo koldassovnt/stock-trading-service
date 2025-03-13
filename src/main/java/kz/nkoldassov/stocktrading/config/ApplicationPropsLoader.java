@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class ConfigLoader {
+public class ApplicationPropsLoader {
 
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream input = ConfigLoader.class
+        try (InputStream input = ApplicationPropsLoader.class
                 .getClassLoader()
                 .getResourceAsStream("application.properties")) {
             if (input == null) {

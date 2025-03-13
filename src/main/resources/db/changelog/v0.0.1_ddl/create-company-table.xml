@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create-table-company" author="nurlan.koldassov">
+        <createTable tableName="company">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)" remarks="Company name (e.g., 'Apple', 'Microsoft')">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="industry_id" type="bigint" remarks="Reference to industry sector">
+                <constraints nullable="false" foreignKeyName="fk_company_industry"
+                             references="industry(id)"/>
+            </column>
+            <column name="created_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="When the company record was created"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

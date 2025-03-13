@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create-table-stock" author="nurlan.koldassov">
+        <createTable tableName="stock">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="ticker" type="varchar(50)" remarks="Stock ticker symbol (e.g., AAPL, TSLA)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="company_id" type="bigint" remarks="Company ref id (Apple, Microsoft, etc)">
+                <constraints nullable="false" foreignKeyName="fk_stock_company"
+                             references="company(id)"/>
+            </column>
+            <column name="current_price" type="numeric(22,2)" remarks="Current stock price">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="varchar(3)" remarks="Currency code (e.g., 'USD')">
+                <constraints nullable="false"/>
+            </column>
+            <column name="market_cap" type="bigint" remarks="Market capitalization (total value of shares)"/>
+            <column name="volume" type="bigint" remarks="Trading volume for the day"/>
+            <column name="exchange_id" type="bigint" remarks="Stock exchange ref id (e.g., 'NASDAQ')">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="When the stock record was created"/>
+            <column name="updated_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp on update current_timestamp"
+                    remarks="Last updated timestamp"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
