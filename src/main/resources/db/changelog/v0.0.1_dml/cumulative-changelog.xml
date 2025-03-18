@@ -8,10 +8,10 @@
         <tagDatabase tag="v0.0.1"/>
     </changeSet>
 
-    <include file="create-industry-table.xml" relativeToChangelogFile="true"/>
-    <include file="create-company-table.xml" relativeToChangelogFile="true"/>
-    <include file="create-exchange-table.xml" relativeToChangelogFile="true"/>
-    <include file="create-stock-table.xml" relativeToChangelogFile="true"/>
-    <include file="create-user-table.xml" relativeToChangelogFile="true"/>
+    <include file="insert-industries.xml" relativeToChangelogFile="true"/>
+    <include file="insert-companies.xml" relativeToChangelogFile="true"/>
+    <include file="insert-exchanges.xml" relativeToChangelogFile="true"/>
+    <include file="insert-stocks.xml" relativeToChangelogFile="true"/>
+    <include file="insert-users.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

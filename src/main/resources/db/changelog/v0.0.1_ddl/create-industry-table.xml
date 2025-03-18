@@ -6,11 +6,11 @@
 
     <changeSet id="create-table-industry" author="nurlan.koldassov">
         <createTable tableName="industry">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(100)" remarks="Industry sector name (e.g., 'Technology', 'Healthcare')">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="created_at"
                     type="timestamp without time zone"

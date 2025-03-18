@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="insert-exchanges" author="nurlan.koldassov">
+        <insert tableName="exchange">
+            <column name="id" value="1"/>
+            <column name="name" value="New York Stock Exchange"/>
+            <column name="code" value="NYSE"/>
+            <column name="country" value="USA"/>
+            <column name="currency" value="USD"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="2"/>
+            <column name="name" value="Nasdaq Stock Market"/>
+            <column name="code" value="NASDAQ"/>
+            <column name="country" value="USA"/>
+            <column name="currency" value="USD"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="3"/>
+            <column name="name" value="London Stock Exchange"/>
+            <column name="code" value="LSE"/>
+            <column name="country" value="United Kingdom"/>
+            <column name="currency" value="GBP"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="4"/>
+            <column name="name" value="Tokyo Stock Exchange"/>
+            <column name="code" value="TSE"/>
+            <column name="country" value="Japan"/>
+            <column name="currency" value="JPY"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="5"/>
+            <column name="name" value="Shanghai Stock Exchange"/>
+            <column name="code" value="SSE"/>
+            <column name="country" value="China"/>
+            <column name="currency" value="CNY"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="6"/>
+            <column name="name" value="Hong Kong Stock Exchange"/>
+            <column name="code" value="HKEX"/>
+            <column name="country" value="Hong Kong"/>
+            <column name="currency" value="HKD"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="7"/>
+            <column name="name" value="Euronext"/>
+            <column name="code" value="EURONEXT"/>
+            <column name="country" value="Multi-country (Europe)"/>
+            <column name="currency" value="EUR"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="8"/>
+            <column name="name" value="Toronto Stock Exchange"/>
+            <column name="code" value="TSX"/>
+            <column name="country" value="Canada"/>
+            <column name="currency" value="CAD"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="9"/>
+            <column name="name" value="Bombay Stock Exchange"/>
+            <column name="code" value="BSE"/>
+            <column name="country" value="India"/>
+            <column name="currency" value="INR"/>
+        </insert>
+        <insert tableName="exchange">
+            <column name="id" value="10"/>
+            <column name="name" value="National Stock Exchange of India"/>
+            <column name="code" value="NSE"/>
+            <column name="country" value="India"/>
+            <column name="currency" value="INR"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

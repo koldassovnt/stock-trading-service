@@ -6,7 +6,7 @@
 
     <changeSet id="create-table-stock" author="nurlan.koldassov">
         <createTable tableName="stock">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
             <column name="ticker" type="varchar(50)" remarks="Stock ticker symbol (e.g., AAPL, TSLA)">
@@ -25,7 +25,8 @@
             <column name="market_cap" type="bigint" remarks="Market capitalization (total value of shares)"/>
             <column name="volume" type="bigint" remarks="Trading volume for the day"/>
             <column name="exchange_id" type="bigint" remarks="Stock exchange ref id (e.g., 'NASDAQ')">
-                <constraints nullable="false"/>
+                <constraints nullable="false" foreignKeyName="fk_stock_exchange"
+                             references="exchange(id)"/>
             </column>
             <column name="created_at"
                     type="timestamp without time zone"
@@ -33,7 +34,7 @@
                     remarks="When the stock record was created"/>
             <column name="updated_at"
                     type="timestamp without time zone"
-                    defaultValue="current_timestamp on update current_timestamp"
+                    defaultValue="current_timestamp"
                     remarks="Last updated timestamp"/>
         </createTable>
     </changeSet>

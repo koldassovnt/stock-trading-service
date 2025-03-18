@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="insert-top-companies" author="nurlan.koldassov">
+        <insert tableName="company">
+            <column name="id" value="1"/>
+            <column name="name" value="Apple Inc."/>
+            <column name="industry_id" value="1"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="2"/>
+            <column name="name" value="Microsoft Corporation"/>
+            <column name="industry_id" value="1"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="3"/>
+            <column name="name" value="Alphabet Inc."/>
+            <column name="industry_id" value="1"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="4"/>
+            <column name="name" value="Amazon.com, Inc."/>
+            <column name="industry_id" value="2"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="5"/>
+            <column name="name" value="Tesla, Inc."/>
+            <column name="industry_id" value="3"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="6"/>
+            <column name="name" value="NVIDIA Corporation"/>
+            <column name="industry_id" value="1"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="7"/>
+            <column name="name" value="Meta Platforms, Inc."/>
+            <column name="industry_id" value="1"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="8"/>
+            <column name="name" value="Berkshire Hathaway Inc."/>
+            <column name="industry_id" value="4"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="9"/>
+            <column name="name" value="Johnson &amp; Johnson"/>
+            <column name="industry_id" value="5"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="10"/>
+            <column name="name" value="Visa Inc."/>
+            <column name="industry_id" value="4"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="11"/>
+            <column name="name" value="ExxonMobil Corporation"/>
+            <column name="industry_id" value="6"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="12"/>
+            <column name="name" value="UnitedHealth Group"/>
+            <column name="industry_id" value="5"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="13"/>
+            <column name="name" value="Samsung Electronics"/>
+            <column name="industry_id" value="1"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="14"/>
+            <column name="name" value="Toyota Motor Corporation"/>
+            <column name="industry_id" value="3"/>
+        </insert>
+        <insert tableName="company">
+            <column name="id" value="15"/>
+            <column name="name" value="Procter &amp; Gamble Co."/>
+            <column name="industry_id" value="7"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

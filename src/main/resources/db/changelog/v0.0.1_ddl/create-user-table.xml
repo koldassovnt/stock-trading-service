@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create-table-user-data" author="nurlan.koldassov">
+        <createTable tableName="user_data">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birth_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="When the user record was created"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-user-stock" author="nurlan.koldassov">
+        <createTable tableName="user_stock">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_stock_user_id"
+                             references="user_data(id)"/>
+            </column>
+            <column name="stock_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_stock_stock_id"
+                             references="stock(id)"/>
+            </column>
+            <column name="price" type="numeric(22,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="When the user_stock record was created"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

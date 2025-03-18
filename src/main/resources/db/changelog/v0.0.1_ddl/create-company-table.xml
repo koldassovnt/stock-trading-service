@@ -6,11 +6,11 @@
 
     <changeSet id="create-table-company" author="nurlan.koldassov">
         <createTable tableName="company">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)" remarks="Company name (e.g., 'Apple', 'Microsoft')">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="industry_id" type="bigint" remarks="Reference to industry sector">
                 <constraints nullable="false" foreignKeyName="fk_company_industry"

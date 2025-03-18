@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="insert-stocks" author="nurlan.koldassov">
+        <insert tableName="stock">
+            <column name="id" value="1"/>
+            <column name="ticker" value="AAPL"/>
+            <column name="company_id" value="1"/>
+            <column name="current_price" value="175.00"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="2800000000000"/>
+            <column name="volume" value="50000000"/>
+            <column name="exchange_id" value="2"/> <!-- NASDAQ -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="2"/>
+            <column name="ticker" value="MSFT"/>
+            <column name="company_id" value="2"/>
+            <column name="current_price" value="320.00"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="2400000000000"/>
+            <column name="volume" value="35000000"/>
+            <column name="exchange_id" value="2"/> <!-- NASDAQ -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="3"/>
+            <column name="ticker" value="TSLA"/>
+            <column name="company_id" value="3"/>
+            <column name="current_price" value="210.50"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="670000000000"/>
+            <column name="volume" value="80000000"/>
+            <column name="exchange_id" value="2"/> <!-- NASDAQ -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="4"/>
+            <column name="ticker" value="GOOGL"/>
+            <column name="company_id" value="4"/>
+            <column name="current_price" value="135.75"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="1800000000000"/>
+            <column name="volume" value="25000000"/>
+            <column name="exchange_id" value="2"/> <!-- NASDAQ -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="5"/>
+            <column name="ticker" value="AMZN"/>
+            <column name="company_id" value="5"/>
+            <column name="current_price" value="125.60"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="1600000000000"/>
+            <column name="volume" value="40000000"/>
+            <column name="exchange_id" value="2"/> <!-- NASDAQ -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="6"/>
+            <column name="ticker" value="NVDA"/>
+            <column name="company_id" value="6"/>
+            <column name="current_price" value="480.90"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="1200000000000"/>
+            <column name="volume" value="60000000"/>
+            <column name="exchange_id" value="2"/> <!-- NASDAQ -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="7"/>
+            <column name="ticker" value="NFLX"/>
+            <column name="company_id" value="7"/>
+            <column name="current_price" value="390.75"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="170000000000"/>
+            <column name="volume" value="25000000"/>
+            <column name="exchange_id" value="2"/> <!-- NASDAQ -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="8"/>
+            <column name="ticker" value="META"/>
+            <column name="company_id" value="8"/>
+            <column name="current_price" value="285.30"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="700000000000"/>
+            <column name="volume" value="30000000"/>
+            <column name="exchange_id" value="2"/> <!-- NASDAQ -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="9"/>
+            <column name="ticker" value="BRK.A"/>
+            <column name="company_id" value="9"/>
+            <column name="current_price" value="499000.00"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="730000000000"/>
+            <column name="volume" value="3000"/>
+            <column name="exchange_id" value="1"/> <!-- NYSE -->
+        </insert>
+
+        <insert tableName="stock">
+            <column name="id" value="10"/>
+            <column name="ticker" value="V"/>
+            <column name="company_id" value="10"/>
+            <column name="current_price" value="230.80"/>
+            <column name="currency" value="USD"/>
+            <column name="market_cap" value="510000000000"/>
+            <column name="volume" value="20000000"/>
+            <column name="exchange_id" value="1"/> <!-- NYSE -->
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>

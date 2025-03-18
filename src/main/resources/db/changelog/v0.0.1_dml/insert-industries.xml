@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="insert-industries" author="nurlan.koldassov">
+        <insert tableName="industry">
+            <column name="id" value="1"/>
+            <column name="name" value="Technology"/>
+        </insert>
+        <insert tableName="industry">
+            <column name="id" value="2"/>
+            <column name="name" value="E-Commerce"/>
+        </insert>
+        <insert tableName="industry">
+            <column name="id" value="3"/>
+            <column name="name" value="Automotive"/>
+        </insert>
+        <insert tableName="industry">
+            <column name="id" value="4"/>
+            <column name="name" value="Financial Services"/>
+        </insert>
+        <insert tableName="industry">
+            <column name="id" value="5"/>
+            <column name="name" value="Healthcare"/>
+        </insert>
+        <insert tableName="industry">
+            <column name="id" value="6"/>
+            <column name="name" value="Energy"/>
+        </insert>
+        <insert tableName="industry">
+            <column name="id" value="7"/>
+            <column name="name" value="Consumer Goods"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

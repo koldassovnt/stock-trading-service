@@ -3,12 +3,9 @@ package kz.nkoldassov.stocktrading;
 import io.javalin.Javalin;
 import kz.nkoldassov.stocktrading.config.ApplicationPropsLoader;
 import kz.nkoldassov.stocktrading.config.LiquibaseRunner;
+import kz.nkoldassov.stocktrading.controller.StockTradeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 
 public class StockTradingServiceApplication {
 
@@ -34,21 +31,13 @@ public class StockTradingServiceApplication {
 
         app.get("/", ctx -> ctx.result("Stock Trading Service is running!"));
 
-        app.get("/tables", ctx -> {
-            try (Connection conn = DriverManager.getConnection(
-                    ApplicationPropsLoader.getProperty("database.url"),
-                    ApplicationPropsLoader.getProperty("database.username"),
-                    ApplicationPropsLoader.getProperty("database.password")
-            )) {
-                ResultSet rs = conn.createStatement().executeQuery("SHOW TABLES");
-                StringBuilder tables = new StringBuilder();
-                while (rs.next()) {
-                    tables.append(rs.getString(1)).append("\n");
-                }
-                ctx.result("Existing Tables:\n" + tables);
-            }
-        });
+        stockOperationAPIs(app);
 
+    }
+
+    private static void stockOperationAPIs(Javalin app) {
+        app.post("/buy", StockTradeController.placeBuyOrder);
+        app.post("/sell", StockTradeController.placeSellOrder);
     }
 
 }
