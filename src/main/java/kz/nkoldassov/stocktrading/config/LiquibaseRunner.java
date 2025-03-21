@@ -17,9 +17,9 @@ public class LiquibaseRunner {
             String password = ApplicationPropsLoader.getProperty("database.password");
 
             logger.info("Liquibase Config:");
-            logger.info("changelogFile = {}", changelogFile);
-            logger.info("database.url = {}", url);
-            logger.info("database.username = {}", username);
+            logger.info("qpM5D3nl :: changelogFile = {}", changelogFile);
+            logger.info("5mB4rDKx :: database.url = {}", url);
+            logger.info("H4PZNFmG :: database.username = {}", username);
 
             new CommandScope("update")
                     .addArgumentValue("changelogFile", changelogFile)
@@ -28,7 +28,7 @@ public class LiquibaseRunner {
                     .addArgumentValue("password", password)
                     .execute();
         } catch (CommandExecutionException e) {
-            throw new RuntimeException("Error running Liquibase migrations", e);
+            throw new RuntimeException("GQ9K53NO :: Error running Liquibase migrations", e);
         }
     }
 

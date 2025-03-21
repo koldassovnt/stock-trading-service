@@ -13,11 +13,11 @@ public class ApplicationPropsLoader {
                 .getClassLoader()
                 .getResourceAsStream("application.properties")) {
             if (input == null) {
-                throw new RuntimeException("Unable to find application.properties");
+                throw new RuntimeException("yBgM18iZ :: Unable to find application.properties");
             }
             properties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load properties file", e);
+            throw new RuntimeException("8rdz5zQh :: Failed to load properties file", e);
         }
     }
 

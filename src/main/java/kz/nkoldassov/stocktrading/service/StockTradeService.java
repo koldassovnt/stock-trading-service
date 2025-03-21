@@ -1,11 +1,14 @@
 package kz.nkoldassov.stocktrading.service;
 
-import kz.nkoldassov.stocktrading.model.dto.StockTradeDto;
+import kz.nkoldassov.stocktrading.model.dto.StockTradeToBuyDto;
+import kz.nkoldassov.stocktrading.model.dto.StockTradeToSellDto;
 
 public interface StockTradeService {
 
-    void buy(StockTradeDto stockToBuy);
+    void buy(StockTradeToBuyDto stockToBuy);
 
-    void sell(StockTradeDto stockToSell);
+    void sell(StockTradeToSellDto stockToSell);
+
+    void processTrades();
 
 }

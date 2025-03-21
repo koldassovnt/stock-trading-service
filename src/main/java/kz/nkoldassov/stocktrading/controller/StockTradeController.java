@@ -1,36 +1,36 @@
 package kz.nkoldassov.stocktrading.controller;
 
 import io.javalin.http.Handler;
-import kz.nkoldassov.stocktrading.model.dto.StockTradeDto;
+import kz.nkoldassov.stocktrading.model.dto.StockTradeToBuyDto;
+import kz.nkoldassov.stocktrading.model.dto.StockTradeToSellDto;
 import kz.nkoldassov.stocktrading.service.StockTradeService;
-import kz.nkoldassov.stocktrading.service.StockTradeServiceImpl;
 
 public class StockTradeController {
 
-    private StockTradeController() {}
+    private final StockTradeService stockTradeService;
 
-    public static Handler placeBuyOrder = ctx -> {
+    public StockTradeController(StockTradeService stockTradeService) {
+        this.stockTradeService = stockTradeService;
+    }
 
-        StockTradeDto trade = ctx.bodyAsClass(StockTradeDto.class);
+    public Handler placeBuyOrder() {
+        return ctx -> {
+            StockTradeToBuyDto tradeToBuy = ctx.bodyAsClass(StockTradeToBuyDto.class);
+            //todo make field validation for tradeToBuy fields
 
-        StockTradeService stockTradeService = StockTradeServiceImpl.instance();
+            stockTradeService.buy(tradeToBuy);
+            ctx.status(201);
+        };
+    }
 
-        stockTradeService.buy(trade);
+    public Handler placeSellOrder() {
+        return ctx -> {
+            StockTradeToSellDto tradeToSell = ctx.bodyAsClass(StockTradeToSellDto.class);
+            //todo make field validation for tradeToSell fields
 
-        ctx.status(201);
-
-    };
-
-    public static Handler placeSellOrder = ctx -> {
-
-        StockTradeDto trade = ctx.bodyAsClass(StockTradeDto.class);
-
-        StockTradeService stockTradeService = StockTradeServiceImpl.instance();
-
-        stockTradeService.sell(trade);
-
-        ctx.status(201);
-
-    };
+            stockTradeService.sell(tradeToSell);
+            ctx.status(201);
+        };
+    }
 
 }

@@ -45,6 +45,64 @@
                     type="timestamp without time zone"
                     defaultValue="current_timestamp"
                     remarks="When the user_stock record was created"/>
+            <column name="updated_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="Last updated timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-stock-buy-trade-queue" author="nurlan.koldassov">
+        <createTable tableName="stock_buy_trade_queue">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_data_buy_trade_queue_user_id"
+                             references="user_data(id)"/>
+            </column>
+            <column name="price" type="numeric(22,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="occupied_id" type="int"/>
+            <column name="occupied_at" type="timestamp without time zone"/>
+            <column name="created_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="Created timestamp"/>
+            <column name="updated_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="Last updated timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-stock-sell-trade-queue" author="nurlan.koldassov">
+        <createTable tableName="stock_sell_trade_queue">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_data_sell_trade_queue_user_id"
+                             references="user_data(id)"/>
+            </column>
+            <column name="user_stock_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_stock_sell_trade_queue_user_id"
+                             references="user_stock(id)"/>
+            </column>
+            <column name="price" type="numeric(22,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="occupied_id" type="int"/>
+            <column name="occupied_at" type="timestamp without time zone"/>
+            <column name="created_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="Created timestamp"/>
+            <column name="updated_at"
+                    type="timestamp without time zone"
+                    defaultValue="current_timestamp"
+                    remarks="Last updated timestamp"/>
         </createTable>
     </changeSet>
 
