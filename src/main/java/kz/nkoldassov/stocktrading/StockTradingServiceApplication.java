@@ -6,9 +6,12 @@ import kz.nkoldassov.stocktrading.config.LiquibaseRunner;
 import kz.nkoldassov.stocktrading.controller.StockTradeController;
 import kz.nkoldassov.stocktrading.dao.StockBuyTradeQueueDao;
 import kz.nkoldassov.stocktrading.dao.impl.StockBuyTradeQueueDaoImpl;
+import kz.nkoldassov.stocktrading.model.dto.StockTradeToBuyDto;
+import kz.nkoldassov.stocktrading.model.dto.StockTradeToSellDto;
 import kz.nkoldassov.stocktrading.scheduler.StockTradesScheduler;
 import kz.nkoldassov.stocktrading.service.StockTradeService;
 import kz.nkoldassov.stocktrading.service.StockTradeServiceImpl;
+import kz.nkoldassov.stocktrading.validator.AnnotationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,8 +57,17 @@ public class StockTradingServiceApplication {
 
         StockTradeController controller = new StockTradeController(stockTradeService);
 
-        app.post("/buy", controller.placeBuyOrder());
-        app.post("/sell", controller.placeSellOrder());
+        app.post("/buy", ctx -> {
+            StockTradeToBuyDto tradeToBuyDto = ctx.bodyAsClass(StockTradeToBuyDto.class);
+            AnnotationValidator.validate(tradeToBuyDto);
+            controller.placeBuyOrder().handle(ctx);
+        });
+
+        app.post("/sell", ctx -> {
+            StockTradeToSellDto tradeToSellDto = ctx.bodyAsClass(StockTradeToSellDto.class);
+            AnnotationValidator.validate(tradeToSellDto);
+            controller.placeSellOrder().handle(ctx);
+        });
 
     }
 

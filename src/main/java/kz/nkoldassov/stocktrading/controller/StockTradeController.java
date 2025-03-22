@@ -16,8 +16,6 @@ public class StockTradeController {
     public Handler placeBuyOrder() {
         return ctx -> {
             StockTradeToBuyDto tradeToBuy = ctx.bodyAsClass(StockTradeToBuyDto.class);
-            //todo make field validation for tradeToBuy fields
-
             stockTradeService.buy(tradeToBuy);
             ctx.status(201);
         };
@@ -26,8 +24,6 @@ public class StockTradeController {
     public Handler placeSellOrder() {
         return ctx -> {
             StockTradeToSellDto tradeToSell = ctx.bodyAsClass(StockTradeToSellDto.class);
-            //todo make field validation for tradeToSell fields
-
             stockTradeService.sell(tradeToSell);
             ctx.status(201);
         };
