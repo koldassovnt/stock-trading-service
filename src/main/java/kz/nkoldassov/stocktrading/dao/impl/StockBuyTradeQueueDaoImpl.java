@@ -13,12 +13,12 @@ import java.util.List;
 
 import static kz.nkoldassov.stocktrading.util.DateUtil.toLocalDateTime;
 
-@SuppressWarnings("SqlDialectInspection")
+@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
 public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {
 
     private static final String INSERT_SQL = """
             insert into stock_buy_trade_queue (user_id, price, updated_at)
-            values (?, ?, ?, current_timestamp)
+            values (?, ?, current_timestamp)
             """;
 
     private static final String SELECT_NOT_OCCUPIED_SQL = """

@@ -12,6 +12,6 @@
     <include file="create-company-table.xml" relativeToChangelogFile="true"/>
     <include file="create-exchange-table.xml" relativeToChangelogFile="true"/>
     <include file="create-stock-table.xml" relativeToChangelogFile="true"/>
-    <include file="create-user-table.xml" relativeToChangelogFile="true"/>
+    <include file="create-user-and-user-stock-tables.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

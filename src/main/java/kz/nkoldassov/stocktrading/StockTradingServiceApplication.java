@@ -5,7 +5,9 @@ import kz.nkoldassov.stocktrading.config.ApplicationPropsLoader;
 import kz.nkoldassov.stocktrading.config.LiquibaseRunner;
 import kz.nkoldassov.stocktrading.controller.StockTradeController;
 import kz.nkoldassov.stocktrading.dao.StockBuyTradeQueueDao;
+import kz.nkoldassov.stocktrading.dao.StockSellTradeQueueDao;
 import kz.nkoldassov.stocktrading.dao.impl.StockBuyTradeQueueDaoImpl;
+import kz.nkoldassov.stocktrading.dao.impl.StockSellTradeQueueDaoImpl;
 import kz.nkoldassov.stocktrading.model.dto.StockTradeToBuyDto;
 import kz.nkoldassov.stocktrading.model.dto.StockTradeToSellDto;
 import kz.nkoldassov.stocktrading.scheduler.StockTradesScheduler;
@@ -40,7 +42,11 @@ public class StockTradingServiceApplication {
         app.get("/", ctx -> ctx.result("3C4ojF6C :: Stock Trading Service is running!"));
 
         StockBuyTradeQueueDao stockBuyTradeQueueDao = new StockBuyTradeQueueDaoImpl();
-        StockTradeService stockTradeService = new StockTradeServiceImpl(stockBuyTradeQueueDao);
+        StockSellTradeQueueDao stockSellTradeQueueDao = new StockSellTradeQueueDaoImpl();
+        StockTradeService stockTradeService = new StockTradeServiceImpl(
+                stockBuyTradeQueueDao,
+                stockSellTradeQueueDao
+        );
 
         logger.info("L2mBz5mq :: Services initialized");
 
