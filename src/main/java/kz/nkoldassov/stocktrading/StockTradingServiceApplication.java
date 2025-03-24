@@ -4,17 +4,13 @@ import io.javalin.Javalin;
 import kz.nkoldassov.stocktrading.config.ApplicationPropsLoader;
 import kz.nkoldassov.stocktrading.config.LiquibaseRunner;
 import kz.nkoldassov.stocktrading.controller.StockTradeController;
-import kz.nkoldassov.stocktrading.dao.StockBuyTradeQueueDao;
-import kz.nkoldassov.stocktrading.dao.StockSellTradeQueueDao;
-import kz.nkoldassov.stocktrading.dao.TradeOperationDao;
-import kz.nkoldassov.stocktrading.dao.impl.StockBuyTradeQueueDaoImpl;
-import kz.nkoldassov.stocktrading.dao.impl.StockSellTradeQueueDaoImpl;
-import kz.nkoldassov.stocktrading.dao.impl.TradeOperationDaoImpl;
 import kz.nkoldassov.stocktrading.model.dto.StockTradeToBuyDto;
 import kz.nkoldassov.stocktrading.model.dto.StockTradeToSellDto;
+import kz.nkoldassov.stocktrading.repository.*;
+import kz.nkoldassov.stocktrading.repository.impl.*;
 import kz.nkoldassov.stocktrading.scheduler.StockTradesScheduler;
 import kz.nkoldassov.stocktrading.service.StockTradeService;
-import kz.nkoldassov.stocktrading.service.StockTradeServiceImpl;
+import kz.nkoldassov.stocktrading.service.impl.StockTradeServiceImpl;
 import kz.nkoldassov.stocktrading.validator.AnnotationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,16 +39,20 @@ public class StockTradingServiceApplication {
 
         app.get("/", ctx -> ctx.result("3C4ojF6C :: Stock Trading Service is running!"));
 
-        StockBuyTradeQueueDao stockBuyTradeQueueDao = new StockBuyTradeQueueDaoImpl();
-        StockSellTradeQueueDao stockSellTradeQueueDao = new StockSellTradeQueueDaoImpl();
-        TradeOperationDao tradeOperationDao = new TradeOperationDaoImpl();
+        StockBuyTradeQueueRepository stockBuyTradeQueueRepository = new StockBuyTradeQueueRepositoryImpl();
+        StockSellTradeQueueRepository stockSellTradeQueueRepository = new StockSellTradeQueueRepositoryImpl();
+        UserStockRepository userStockRepository = new UserStockRepositoryImpl();
+        UserDataRepository userDataRepository = new UserDataRepositoryImpl();
+        StockRepository stockRepository = new StockRepositoryImpl();
 
-        logger.info("MVoHZY9V :: DAOs initialized");
+        logger.info("MVoHZY9V :: Repositories initialized");
 
         StockTradeService stockTradeService = new StockTradeServiceImpl(
-                stockBuyTradeQueueDao,
-                stockSellTradeQueueDao,
-                tradeOperationDao
+                stockBuyTradeQueueRepository,
+                stockSellTradeQueueRepository,
+                userStockRepository,
+                userDataRepository,
+                stockRepository
         );
 
         logger.info("L2mBz5mq :: Services initialized");

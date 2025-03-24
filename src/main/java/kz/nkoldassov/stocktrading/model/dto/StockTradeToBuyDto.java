@@ -7,5 +7,6 @@ import java.math.BigDecimal;
 
 public record StockTradeToBuyDto(@NotNull Long userId,
                                  @NotNull BigDecimal price,
+                                 @NotNull String ticker,
                                  @PositivePrimitiveInt(includeZero = false) int quantity) {
 }

@@ -1,7 +1,7 @@
-package kz.nkoldassov.stocktrading.dao.impl;
+package kz.nkoldassov.stocktrading.repository.impl;
 
 import kz.nkoldassov.stocktrading.config.DatabaseConfig;
-import kz.nkoldassov.stocktrading.dao.StockSellTradeQueueDao;
+import kz.nkoldassov.stocktrading.repository.StockSellTradeQueueRepository;
 import kz.nkoldassov.stocktrading.model.db.StockSellTradeQueue;
 import kz.nkoldassov.stocktrading.util.RandomUtil;
 
@@ -16,16 +16,18 @@ import java.util.Optional;
 import static kz.nkoldassov.stocktrading.util.DateUtil.toLocalDateTime;
 
 @SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
-public class StockSellTradeQueueDaoImpl implements StockSellTradeQueueDao {//todo test methods
+public class StockSellTradeQueueRepositoryImpl implements StockSellTradeQueueRepository {
 
     private static final String INSERT_SQL = """
             insert into stock_sell_trade_queue (user_id, user_stock_id, price, updated_at)
             values (?, ?, ?, current_timestamp)
             """;
 
-    private static final String SELECT_BY_PRICE_NOT_OCCUPIED_SQL = """
-            select * from stock_sell_trade_queue
-            where occupied_id is null and price = ?
+    private static final String SELECT_BY_PRICE_AND_STOCK_ID_NOT_OCCUPIED_SQL = """
+            select * from stock_sell_trade_queue sstq
+            left join user_stock us on us.id = sstq.user_stock_id
+            left join stock s on s.id = us.stock_id
+            where sstq.occupied_id is null and sstq.price = ? and s.id = ?
             order by created_at
             limit 1
             for update
@@ -73,13 +75,13 @@ public class StockSellTradeQueueDaoImpl implements StockSellTradeQueueDao {//tod
     }
 
     @Override
-    public Optional<StockSellTradeQueue> loadAndOccupyByPrice(BigDecimal price) {
+    public Optional<StockSellTradeQueue> findAndOccupyByPriceAndStockId(BigDecimal price, Long stockId) {
 
         try (Connection conn = dataSource.getConnection()) {
 
             conn.setAutoCommit(false);
 
-            Optional<StockSellTradeQueue> queueOpt = loadNotOccupiedByPrice(price, conn);
+            Optional<StockSellTradeQueue> queueOpt = findNotOccupiedByPriceAndStockId(price, stockId, conn);
 
             if (queueOpt.isPresent()) {
 
@@ -113,23 +115,24 @@ public class StockSellTradeQueueDaoImpl implements StockSellTradeQueueDao {//tod
 
     }
 
-    private Optional<StockSellTradeQueue> loadNotOccupiedByPrice(BigDecimal price, Connection conn) throws SQLException {
+    private Optional<StockSellTradeQueue> findNotOccupiedByPriceAndStockId(BigDecimal price,
+                                                                           Long stockId,
+                                                                           Connection conn) throws SQLException {
 
-        Optional<StockSellTradeQueue> queueOpt = Optional.empty();
-
-        try (PreparedStatement stmt = conn.prepareStatement(SELECT_BY_PRICE_NOT_OCCUPIED_SQL)) {
+        try (PreparedStatement stmt = conn.prepareStatement(SELECT_BY_PRICE_AND_STOCK_ID_NOT_OCCUPIED_SQL)) {
 
             stmt.setBigDecimal(1, price);
+            stmt.setLong(2, stockId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    queueOpt = Optional.of(mapToStockSellTradeQueue(rs, RandomUtil.generateOccupiedId()));
+                    return Optional.of(mapToStockSellTradeQueue(rs, RandomUtil.generateOccupiedId()));
                 }
             }
 
         }
 
-        return queueOpt;
+        return Optional.empty();
 
     }
 

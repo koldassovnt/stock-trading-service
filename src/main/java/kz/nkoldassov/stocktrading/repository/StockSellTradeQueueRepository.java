@@ -1,4 +1,4 @@
-package kz.nkoldassov.stocktrading.dao;
+package kz.nkoldassov.stocktrading.repository;
 
 import kz.nkoldassov.stocktrading.model.db.StockSellTradeQueue;
 
@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public interface StockSellTradeQueueDao {
+public interface StockSellTradeQueueRepository {
 
     void insertAll(List<StockSellTradeQueue> tradeQueueList);
 
-    Optional<StockSellTradeQueue> loadAndOccupyByPrice(BigDecimal price);
+    Optional<StockSellTradeQueue> findAndOccupyByPriceAndStockId(BigDecimal price, Long stockId);
 
 }

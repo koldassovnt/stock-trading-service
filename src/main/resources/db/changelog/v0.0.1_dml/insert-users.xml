@@ -9,6 +9,7 @@
             <column name="id" value="1"/>
             <column name="name" value="John"/>
             <column name="surname" value="Doe"/>
+            <column name="balance_amount" value="2000.25"/>
             <column name="birth_date" value="1990-05-15"/>
         </insert>
 
@@ -16,6 +17,7 @@
             <column name="id" value="2"/>
             <column name="name" value="Jane"/>
             <column name="surname" value="Smith"/>
+            <column name="balance_amount" value="15700.00"/>
             <column name="birth_date" value="1985-10-22"/>
         </insert>
 
@@ -23,6 +25,7 @@
             <column name="id" value="3"/>
             <column name="name" value="Michael"/>
             <column name="surname" value="Johnson"/>
+            <column name="balance_amount" value="452.89"/>
             <column name="birth_date" value="1992-07-08"/>
         </insert>
 
@@ -30,6 +33,7 @@
             <column name="id" value="4"/>
             <column name="name" value="Emily"/>
             <column name="surname" value="Brown"/>
+            <column name="balance_amount" value="9000.00"/>
             <column name="birth_date" value="1998-03-30"/>
         </insert>
 
@@ -37,6 +41,7 @@
             <column name="id" value="5"/>
             <column name="name" value="Daniel"/>
             <column name="surname" value="Williams"/>
+            <column name="balance_amount" value="10000.00"/>
             <column name="birth_date" value="1980-09-12"/>
         </insert>
 
@@ -44,6 +49,7 @@
             <column name="id" value="6"/>
             <column name="name" value="Sophia"/>
             <column name="surname" value="Miller"/>
+            <column name="balance_amount" value="55000.00"/>
             <column name="birth_date" value="1995-06-25"/>
         </insert>
 
@@ -51,6 +57,7 @@
             <column name="id" value="7"/>
             <column name="name" value="Matthew"/>
             <column name="surname" value="Wilson"/>
+            <column name="balance_amount" value="357.00"/>
             <column name="birth_date" value="1987-12-05"/>
         </insert>
 
@@ -58,6 +65,7 @@
             <column name="id" value="8"/>
             <column name="name" value="Olivia"/>
             <column name="surname" value="Davis"/>
+            <column name="balance_amount" value="522.54"/>
             <column name="birth_date" value="1993-04-18"/>
         </insert>
 
@@ -65,6 +73,7 @@
             <column name="id" value="9"/>
             <column name="name" value="David"/>
             <column name="surname" value="Martinez"/>
+            <column name="balance_amount" value="900.00"/>
             <column name="birth_date" value="1983-08-20"/>
         </insert>
 
@@ -72,6 +81,7 @@
             <column name="id" value="10"/>
             <column name="name" value="Emma"/>
             <column name="surname" value="Garcia"/>
+            <column name="balance_amount" value="17025.00"/>
             <column name="birth_date" value="1997-11-02"/>
         </insert>
     </changeSet>

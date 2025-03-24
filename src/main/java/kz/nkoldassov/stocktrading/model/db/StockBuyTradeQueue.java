@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public record StockBuyTradeQueue(Long id,
                                  Long userId,
                                  BigDecimal price,
+                                 Long stockId,
                                  Integer occupiedId,
                                  LocalDateTime occupiedAt,
                                  LocalDateTime createdAt,

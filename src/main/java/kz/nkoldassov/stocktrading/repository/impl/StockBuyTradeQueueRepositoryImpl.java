@@ -1,7 +1,7 @@
-package kz.nkoldassov.stocktrading.dao.impl;
+package kz.nkoldassov.stocktrading.repository.impl;
 
 import kz.nkoldassov.stocktrading.config.DatabaseConfig;
-import kz.nkoldassov.stocktrading.dao.StockBuyTradeQueueDao;
+import kz.nkoldassov.stocktrading.repository.StockBuyTradeQueueRepository;
 import kz.nkoldassov.stocktrading.model.db.StockBuyTradeQueue;
 import kz.nkoldassov.stocktrading.util.RandomUtil;
 
@@ -15,10 +15,10 @@ import java.util.List;
 import static kz.nkoldassov.stocktrading.util.DateUtil.toLocalDateTime;
 
 @SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
-public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo test methods
+public class StockBuyTradeQueueRepositoryImpl implements StockBuyTradeQueueRepository {
 
     private static final String INSERT_SQL = """
-            insert into stock_buy_trade_queue (user_id, price, updated_at)
+            insert into stock_buy_trade_queue (user_id, price, stock_id updated_at)
             values (?, ?, current_timestamp)
             """;
 
@@ -50,9 +50,10 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo 
 
             conn.setAutoCommit(false);
 
-            for (StockBuyTradeQueue tradeQueue : tradeQueueList) {
-                stmt.setLong(1, tradeQueue.userId());
-                stmt.setBigDecimal(2, tradeQueue.price());
+            for (StockBuyTradeQueue buyTrade : tradeQueueList) {
+                stmt.setLong(1, buyTrade.userId());
+                stmt.setBigDecimal(2, buyTrade.price());
+                stmt.setLong(3, buyTrade.stockId());
                 stmt.addBatch();
             }
 
@@ -63,7 +64,6 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo 
                 throw new SQLException("Batch insert failed: Not all rows were inserted.");
             }
 
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -71,15 +71,15 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo 
     }
 
     @Override
-    public List<StockBuyTradeQueue> loadAndOccupy(int limit) {
+    public List<StockBuyTradeQueue> findAndOccupyByLimit(int limit) {
 
-        List<StockBuyTradeQueue> buyTradeList = new ArrayList<>();
+        List<StockBuyTradeQueue> buyTradeList;
 
         try (Connection conn = dataSource.getConnection()) {
 
             conn.setAutoCommit(false);
 
-            loadNotOccupied(limit, conn, buyTradeList);
+            buyTradeList = findNotOccupied(limit, conn);
 
             updateAsOccupied(conn, buyTradeList);
 
@@ -111,7 +111,9 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo 
 
     }
 
-    private void loadNotOccupied(int limit, Connection conn, List<StockBuyTradeQueue> buyTradeList) throws SQLException {
+    private List<StockBuyTradeQueue> findNotOccupied(int limit, Connection conn) throws SQLException {
+
+        List<StockBuyTradeQueue> buyTradeList = new ArrayList<>();
 
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_NOT_OCCUPIED_SQL)) {
 
@@ -126,6 +128,8 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo 
 
         }
 
+        return buyTradeList;
+
     }
 
     private StockBuyTradeQueue mapToTradeQueue(ResultSet rs) throws SQLException {
@@ -133,6 +137,7 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo 
                 rs.getLong("id"),
                 rs.getLong("user_id"),
                 rs.getBigDecimal("price"),
+                rs.getLong("stock_id"),
                 RandomUtil.generateOccupiedId(),
                 LocalDateTime.now(),
                 toLocalDateTime(rs.getTimestamp("created_at")),

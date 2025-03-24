@@ -18,7 +18,7 @@
             <column name="birth_date" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="balanceAmount" type="numeric(22,2)">
+            <column name="balance_amount" type="numeric(22,2)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at"
@@ -61,11 +61,15 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_user_data_buy_trade_queue_user_id"
+                <constraints nullable="false" foreignKeyName="fk_stock_buy_trade_queue_user_id"
                              references="user_data(id)"/>
             </column>
             <column name="price" type="numeric(22,2)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="stock_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_stock_buy_trade_queue_stock_id"
+                             references="stock(id)"/>
             </column>
             <column name="occupied_id" type="int"/>
             <column name="occupied_at" type="timestamp without time zone"/>
@@ -86,11 +90,11 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_user_data_sell_trade_queue_user_id"
+                <constraints nullable="false" foreignKeyName="fk_stock_sell_trade_queue_user_id"
                              references="user_data(id)"/>
             </column>
             <column name="user_stock_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_user_stock_sell_trade_queue_user_id"
+                <constraints nullable="false" foreignKeyName="fk_stock_sell_trade_queue_user_stock_id"
                              references="user_stock(id)"/>
             </column>
             <column name="price" type="numeric(22,2)">
