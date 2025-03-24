@@ -1,5 +1,6 @@
 package kz.nkoldassov.stocktrading.model.db;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -7,5 +8,6 @@ public record UserData(Long id,
                        String name,
                        String surname,
                        LocalDate birthDate,
-                       LocalDateTime createdAt) {//todo add amount field
+                       BigDecimal balanceAmount,
+                       LocalDateTime createdAt) {
 }

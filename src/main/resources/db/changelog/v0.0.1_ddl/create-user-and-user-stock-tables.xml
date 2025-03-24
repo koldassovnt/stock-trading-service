@@ -18,6 +18,9 @@
             <column name="birth_date" type="date">
                 <constraints nullable="false"/>
             </column>
+            <column name="balanceAmount" type="numeric(22,2)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at"
                     type="timestamp without time zone"
                     defaultValue="current_timestamp"

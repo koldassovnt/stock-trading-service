@@ -36,6 +36,8 @@ public class StockTradeServiceImpl implements StockTradeService {//todo test met
     @Override
     public void buy(StockTradeToBuyDto stockToBuy) {
 
+        //todo @Nurlan check user balanceAmount
+
         List<StockBuyTradeQueue> tradeQueueList = IntStream.range(0, stockToBuy.quantity())
                 .mapToObj(i -> new StockBuyTradeQueue(
                         null,
@@ -85,6 +87,8 @@ public class StockTradeServiceImpl implements StockTradeService {//todo test met
             sellTradeOpt.ifPresent(stockSellTradeQueue ->
                     tradeOperationDao.makeTrade(buyTrade, stockSellTradeQueue)
             );
+
+            //todo transfer price to seller balanceAmount
 
         }
 

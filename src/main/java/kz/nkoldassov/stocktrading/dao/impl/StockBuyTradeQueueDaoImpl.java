@@ -94,7 +94,7 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo 
 
     }
 
-    private static void updateAsOccupied(Connection conn, List<StockBuyTradeQueue> buyTradeList) throws SQLException {
+    private void updateAsOccupied(Connection conn, List<StockBuyTradeQueue> buyTradeList) throws SQLException {
 
         try (PreparedStatement updateStmt = conn.prepareStatement(UPDATE_AS_OCCUPIED_SQL)) {
 
