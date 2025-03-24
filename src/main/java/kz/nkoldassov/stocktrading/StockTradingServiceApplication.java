@@ -41,7 +41,7 @@ public class StockTradingServiceApplication {
 
         StockBuyTradeQueueRepository stockBuyTradeQueueRepository = new StockBuyTradeQueueRepositoryImpl();
         StockSellTradeQueueRepository stockSellTradeQueueRepository = new StockSellTradeQueueRepositoryImpl();
-        UserStockRepository userStockRepository = new UserStockRepositoryImpl();
+        StockTradeOperationRepository stockTradeOperationRepository = new StockTradeOperationRepositoryImpl();
         UserDataRepository userDataRepository = new UserDataRepositoryImpl();
         StockRepository stockRepository = new StockRepositoryImpl();
 
@@ -50,7 +50,7 @@ public class StockTradingServiceApplication {
         StockTradeService stockTradeService = new StockTradeServiceImpl(
                 stockBuyTradeQueueRepository,
                 stockSellTradeQueueRepository,
-                userStockRepository,
+                stockTradeOperationRepository,
                 userDataRepository,
                 stockRepository
         );

@@ -27,24 +27,24 @@ public class StockTradeServiceImpl implements StockTradeService {//todo test met
 
     private final StockBuyTradeQueueRepository stockBuyTradeQueueRepository;
     private final StockSellTradeQueueRepository stockSellTradeQueueRepository;
-    private final UserStockRepository userStockRepository;
+    private final StockTradeOperationRepository stockTradeOperationRepository;
     private final UserDataRepository userDataRepository;
     private final StockRepository stockRepository;
 
     public StockTradeServiceImpl(StockBuyTradeQueueRepository stockBuyTradeQueueRepository,
                                  StockSellTradeQueueRepository stockSellTradeQueueRepository,
-                                 UserStockRepository userStockRepository,
+                                 StockTradeOperationRepository stockTradeOperationRepository,
                                  UserDataRepository userDataRepository,
                                  StockRepository stockRepository) {
         this.stockBuyTradeQueueRepository = stockBuyTradeQueueRepository;
         this.stockSellTradeQueueRepository = stockSellTradeQueueRepository;
-        this.userStockRepository = userStockRepository;
+        this.stockTradeOperationRepository = stockTradeOperationRepository;
         this.userDataRepository = userDataRepository;
         this.stockRepository = stockRepository;
     }
 
     @Override
-    public void buy(StockTradeToBuyDto stockToBuy) {
+    public void buy(StockTradeToBuyDto stockToBuy) {//todo slice diff logic
 
         Optional<UserData> userDataOpt = userDataRepository.findById(stockToBuy.userId());
 
@@ -103,7 +103,7 @@ public class StockTradeServiceImpl implements StockTradeService {//todo test met
     }
 
     @Override
-    public void processTrades() {//todo slice diff logic
+    public void processTrades() {
 
         int limit = getLimit();
 
@@ -120,22 +120,7 @@ public class StockTradeServiceImpl implements StockTradeService {//todo test met
 
                 StockSellTradeQueue sellTrade = sellTradeOpt.get();
 
-                boolean isExecuted = userStockRepository.updateUserStockHolder(
-                        buyTrade.userId(),
-                        sellTrade.price(),
-                        sellTrade.userStockId());
-
-                if (isExecuted) {
-                    //todo transfer price to seller balanceAmount
-                    //todo update stock currentPrice
-                } else {
-                    logger.error("2AqFkoMq :: user_stock transfer " +
-                            "by id = {} " +
-                            "from user = {} " +
-                            "to user = {} was not executed",
-                            sellTrade.userStockId(), sellTrade.userId(), buyTrade.userId());
-                    //todo make occupied as null
-                }
+                stockTradeOperationRepository.makeStockTradeOperation(buyTrade, sellTrade);
 
             }
 

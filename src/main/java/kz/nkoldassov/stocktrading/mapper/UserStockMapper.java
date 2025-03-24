@@ -1,9 +1,12 @@
 package kz.nkoldassov.stocktrading.mapper;
 
+import kz.nkoldassov.stocktrading.model.db.UserStock;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @SuppressWarnings("SqlDialectInspection")
 public interface UserStockMapper {
@@ -13,8 +16,11 @@ public interface UserStockMapper {
             set user_id = #{userId}, price = #{price}
             where id = #{id}
             """)
-    int updateUserStockHolder(@Param("userId") Long userId,
-                              @Param("price") BigDecimal price,
-                              @Param("id") Long id);
+    void updateStockHolder(@Param("userId") Long userId,
+                           @Param("price") BigDecimal price,
+                           @Param("id") Long id);
+
+    @Select("select * from user_stock where id = #{id} for update")
+    Optional<UserStock> findUserStockForUpdate(@Param("id") Long id);
 
 }
