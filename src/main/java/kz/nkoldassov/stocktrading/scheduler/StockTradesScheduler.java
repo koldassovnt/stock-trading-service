@@ -33,6 +33,7 @@ public class StockTradesScheduler {
         } catch (Exception ex) {
             logger.error("gwDnA7pS :: error occurred in processTrades", ex);
             stop();
+            start();
         }
     }
 

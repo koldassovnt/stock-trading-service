@@ -6,8 +6,10 @@ import kz.nkoldassov.stocktrading.config.LiquibaseRunner;
 import kz.nkoldassov.stocktrading.controller.StockTradeController;
 import kz.nkoldassov.stocktrading.dao.StockBuyTradeQueueDao;
 import kz.nkoldassov.stocktrading.dao.StockSellTradeQueueDao;
+import kz.nkoldassov.stocktrading.dao.TradeOperationDao;
 import kz.nkoldassov.stocktrading.dao.impl.StockBuyTradeQueueDaoImpl;
 import kz.nkoldassov.stocktrading.dao.impl.StockSellTradeQueueDaoImpl;
+import kz.nkoldassov.stocktrading.dao.impl.TradeOperationDaoImpl;
 import kz.nkoldassov.stocktrading.model.dto.StockTradeToBuyDto;
 import kz.nkoldassov.stocktrading.model.dto.StockTradeToSellDto;
 import kz.nkoldassov.stocktrading.scheduler.StockTradesScheduler;
@@ -43,9 +45,14 @@ public class StockTradingServiceApplication {
 
         StockBuyTradeQueueDao stockBuyTradeQueueDao = new StockBuyTradeQueueDaoImpl();
         StockSellTradeQueueDao stockSellTradeQueueDao = new StockSellTradeQueueDaoImpl();
+        TradeOperationDao tradeOperationDao = new TradeOperationDaoImpl();
+
+        logger.info("MVoHZY9V :: DAOs initialized");
+
         StockTradeService stockTradeService = new StockTradeServiceImpl(
                 stockBuyTradeQueueDao,
-                stockSellTradeQueueDao
+                stockSellTradeQueueDao,
+                tradeOperationDao
         );
 
         logger.info("L2mBz5mq :: Services initialized");

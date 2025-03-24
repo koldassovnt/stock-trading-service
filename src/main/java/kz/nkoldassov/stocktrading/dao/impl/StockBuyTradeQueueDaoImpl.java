@@ -3,6 +3,7 @@ package kz.nkoldassov.stocktrading.dao.impl;
 import kz.nkoldassov.stocktrading.config.DatabaseConfig;
 import kz.nkoldassov.stocktrading.dao.StockBuyTradeQueueDao;
 import kz.nkoldassov.stocktrading.model.db.StockBuyTradeQueue;
+import kz.nkoldassov.stocktrading.util.RandomUtil;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -14,7 +15,7 @@ import java.util.List;
 import static kz.nkoldassov.stocktrading.util.DateUtil.toLocalDateTime;
 
 @SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
-public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {
+public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {//todo test methods
 
     private static final String INSERT_SQL = """
             insert into stock_buy_trade_queue (user_id, price, updated_at)
@@ -29,7 +30,7 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {
             for update
             """;
 
-    private static final String UPDATE_SQL = """
+    private static final String UPDATE_AS_OCCUPIED_SQL = """
             update stock_buy_trade_queue
             set occupied_id = ?, occupied_at = ?, updated_at = current_timestamp
             where id = ?
@@ -70,39 +71,17 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {
     }
 
     @Override
-    public List<StockBuyTradeQueue> loadAndOccupy(int limit, int occupiedId) {
+    public List<StockBuyTradeQueue> loadAndOccupy(int limit) {
 
-        List<StockBuyTradeQueue> tradeQueue = new ArrayList<>();
+        List<StockBuyTradeQueue> buyTradeList = new ArrayList<>();
 
         try (Connection conn = dataSource.getConnection()) {
 
             conn.setAutoCommit(false);
 
-            try (PreparedStatement stmt = conn.prepareStatement(SELECT_NOT_OCCUPIED_SQL)) {
+            loadNotOccupied(limit, conn, buyTradeList);
 
-                stmt.setInt(1, limit);
-
-                try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        StockBuyTradeQueue queueItem = mapToTradeQueue(rs, occupiedId);
-                        tradeQueue.add(queueItem);
-                    }
-                }
-
-            }
-
-            try (PreparedStatement updateStmt = conn.prepareStatement(UPDATE_SQL)) {
-
-                for (StockBuyTradeQueue queueItem : tradeQueue) {
-                    updateStmt.setInt(1, queueItem.occupiedId());
-                    updateStmt.setTimestamp(2, Timestamp.valueOf(queueItem.occupiedAt()));
-                    updateStmt.setLong(3, queueItem.id());
-                    updateStmt.addBatch();
-                }
-
-                updateStmt.executeBatch();
-
-            }
+            updateAsOccupied(conn, buyTradeList);
 
             conn.commit();
 
@@ -111,16 +90,50 @@ public class StockBuyTradeQueueDaoImpl implements StockBuyTradeQueueDao {
             throw new RuntimeException(e);
         }
 
-        return tradeQueue;
+        return buyTradeList;
 
     }
 
-    private StockBuyTradeQueue mapToTradeQueue(ResultSet rs, int occupiedId) throws SQLException {
+    private static void updateAsOccupied(Connection conn, List<StockBuyTradeQueue> buyTradeList) throws SQLException {
+
+        try (PreparedStatement updateStmt = conn.prepareStatement(UPDATE_AS_OCCUPIED_SQL)) {
+
+            for (StockBuyTradeQueue buyTrade : buyTradeList) {
+                updateStmt.setInt(1, buyTrade.occupiedId());
+                updateStmt.setTimestamp(2, Timestamp.valueOf(buyTrade.occupiedAt()));
+                updateStmt.setLong(3, buyTrade.id());
+                updateStmt.addBatch();
+            }
+
+            updateStmt.executeBatch();
+
+        }
+
+    }
+
+    private void loadNotOccupied(int limit, Connection conn, List<StockBuyTradeQueue> buyTradeList) throws SQLException {
+
+        try (PreparedStatement stmt = conn.prepareStatement(SELECT_NOT_OCCUPIED_SQL)) {
+
+            stmt.setInt(1, limit);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    StockBuyTradeQueue buyTrade = mapToTradeQueue(rs);
+                    buyTradeList.add(buyTrade);
+                }
+            }
+
+        }
+
+    }
+
+    private StockBuyTradeQueue mapToTradeQueue(ResultSet rs) throws SQLException {
         return new StockBuyTradeQueue(
                 rs.getLong("id"),
                 rs.getLong("user_id"),
                 rs.getBigDecimal("price"),
-                occupiedId,
+                RandomUtil.generateOccupiedId(),
                 LocalDateTime.now(),
                 toLocalDateTime(rs.getTimestamp("created_at")),
                 toLocalDateTime(rs.getTimestamp("updated_at"))

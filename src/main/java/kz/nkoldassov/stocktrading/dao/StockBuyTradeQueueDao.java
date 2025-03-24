@@ -8,6 +8,6 @@ public interface StockBuyTradeQueueDao {
 
     void insertAll(List<StockBuyTradeQueue> tradeQueueList);
 
-    List<StockBuyTradeQueue> loadAndOccupy(int limit, int occupiedId);
+    List<StockBuyTradeQueue> loadAndOccupy(int limit);
 
 }

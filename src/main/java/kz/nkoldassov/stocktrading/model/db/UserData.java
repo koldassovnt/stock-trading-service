@@ -7,5 +7,5 @@ public record UserData(Long id,
                        String name,
                        String surname,
                        LocalDate birthDate,
-                       LocalDateTime createdAt) {
+                       LocalDateTime createdAt) {//todo add amount field
 }
