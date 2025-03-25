@@ -15,7 +15,7 @@ import java.util.Optional;
 public class StockTradeOperationRepositoryImpl implements StockTradeOperationRepository {
 
     @Override
-    public void makeStockTradeOperation(StockBuyTradeQueue buyTrade, StockSellTradeQueue sellTrade) {
+    public void makeStockTradeOperation(StockBuyOrderQueue buyOrder, StockSellOrderQueue sellOrder) {
 
         try (SqlSession session = MyBatisConfig.getSession()) {
             Connection conn = session.getConnection();
@@ -27,13 +27,13 @@ public class StockTradeOperationRepositoryImpl implements StockTradeOperationRep
                 UserDataMapper userDataMapper = session.getMapper(UserDataMapper.class);
                 StockMapper stockMapper = session.getMapper(StockMapper.class);
 
-                updateUserStockHolder(buyTrade, sellTrade, userStockMapper);
+                updateUserStockHolder(buyOrder, sellOrder, userStockMapper);
 
-                updateBuyerBalance(buyTrade, userDataMapper);
+                updateBuyerBalance(buyOrder, userDataMapper);
 
-                updateSellerBalance(buyTrade, sellTrade, userDataMapper);
+                updateSellerBalance(buyOrder, sellOrder, userDataMapper);
 
-                updateStockCurrentPrice(buyTrade, stockMapper);
+                updateStockCurrentPrice(buyOrder, stockMapper);
 
                 conn.commit();
 
@@ -48,62 +48,62 @@ public class StockTradeOperationRepositoryImpl implements StockTradeOperationRep
 
     }
 
-    private static void updateStockCurrentPrice(StockBuyTradeQueue buyTrade, StockMapper stockMapper) {
+    private static void updateStockCurrentPrice(StockBuyOrderQueue buyOrder, StockMapper stockMapper) {
 
-        Optional<Stock> stockOpt = stockMapper.findStockForUpdate(buyTrade.stockId());
+        Optional<Stock> stockOpt = stockMapper.findStockForUpdate(buyOrder.stockId());
 
         if (stockOpt.isEmpty()) {
-            throw new RuntimeException("No stock by id = " + buyTrade.stockId());
+            throw new RuntimeException("No stock by id = " + buyOrder.stockId());
         }
 
-        stockMapper.updateStockCurrentPrice(buyTrade.stockId(), buyTrade.price());
+        stockMapper.updateStockCurrentPrice(buyOrder.stockId(), buyOrder.price());
 
     }
 
-    private static void updateSellerBalance(StockBuyTradeQueue buyTrade,
-                                            StockSellTradeQueue sellTrade,
+    private static void updateSellerBalance(StockBuyOrderQueue buyOrder,
+                                            StockSellOrderQueue sellOrder,
                                             UserDataMapper userDataMapper) {
 
-        Optional<UserData> sellerOpt = userDataMapper.findByIdForUpdate(sellTrade.userId());
+        Optional<UserData> sellerOpt = userDataMapper.findByIdForUpdate(sellOrder.userId());
 
         if (sellerOpt.isEmpty()) {
-            throw new RuntimeException("Not found seller by id = " + sellTrade.userId());
+            throw new RuntimeException("Not found seller by id = " + sellOrder.userId());
         }
 
         UserData seller = sellerOpt.get();
-        userDataMapper.updateBalance(seller.id(), seller.balanceAmount().add(buyTrade.price()));
+        userDataMapper.updateBalance(seller.id(), seller.balanceAmount().add(buyOrder.price()));
 
     }
 
-    private static void updateBuyerBalance(StockBuyTradeQueue buyTrade, UserDataMapper userDataMapper) {
+    private static void updateBuyerBalance(StockBuyOrderQueue buyOrder, UserDataMapper userDataMapper) {
 
-        Optional<UserData> buyerOpt = userDataMapper.findByIdForUpdate(buyTrade.userId());
+        Optional<UserData> buyerOpt = userDataMapper.findByIdForUpdate(buyOrder.userId());
 
         if (buyerOpt.isEmpty()) {
-            throw new RuntimeException("Not found buyer by id = " + buyTrade.userId());
+            throw new RuntimeException("Not found buyer by id = " + buyOrder.userId());
         }
 
         UserData buyer = buyerOpt.get();
 
-        if (buyer.balanceAmount().compareTo(buyTrade.price()) < 0) {
+        if (buyer.balanceAmount().compareTo(buyOrder.price()) < 0) {
             throw new RuntimeException("Buyer does not have enough balance");
         }
 
-        userDataMapper.updateBalance(buyer.id(), buyer.balanceAmount().subtract(buyTrade.price()));
+        userDataMapper.updateBalance(buyer.id(), buyer.balanceAmount().subtract(buyOrder.price()));
 
     }
 
-    private static void updateUserStockHolder(StockBuyTradeQueue buyTrade,
-                                              StockSellTradeQueue sellTrade,
+    private static void updateUserStockHolder(StockBuyOrderQueue buyOrder,
+                                              StockSellOrderQueue sellOrder,
                                               UserStockMapper userStockMapper) {
 
-        Optional<UserStock> userStockOpt = userStockMapper.findUserStockForUpdate(sellTrade.userStockId());
+        Optional<UserStock> userStockOpt = userStockMapper.findUserStockForUpdate(sellOrder.userStockId());
 
         if (userStockOpt.isEmpty()) {
-            throw new RuntimeException("Not found userStock by id = " + sellTrade.userStockId());
+            throw new RuntimeException("Not found userStock by id = " + sellOrder.userStockId());
         }
 
-        userStockMapper.updateStockHolder(buyTrade.userId(), buyTrade.price(), sellTrade.userStockId());
+        userStockMapper.updateStockHolder(buyOrder.userId(), buyOrder.price(), sellOrder.userStockId());
 
     }
 

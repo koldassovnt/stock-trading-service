@@ -55,20 +55,20 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-table-stock-buy-trade-queue" author="nurlan.koldassov">
-        <createTable tableName="stock_buy_trade_queue">
+    <changeSet id="create-table-stock-buy-order-queue" author="nurlan.koldassov">
+        <createTable tableName="stock_buy_order_queue">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_stock_buy_trade_queue_user_id"
+                <constraints nullable="false" foreignKeyName="fk_stock_buy_order_queue_user_id"
                              references="user_data(id)"/>
             </column>
             <column name="price" type="numeric(22,2)">
                 <constraints nullable="false"/>
             </column>
             <column name="stock_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_stock_buy_trade_queue_stock_id"
+                <constraints nullable="false" foreignKeyName="fk_stock_buy_order_queue_stock_id"
                              references="stock(id)"/>
             </column>
             <column name="occupied_id" type="int"/>
@@ -84,17 +84,17 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-table-stock-sell-trade-queue" author="nurlan.koldassov">
-        <createTable tableName="stock_sell_trade_queue">
+    <changeSet id="create-table-stock-sell-order-queue" author="nurlan.koldassov">
+        <createTable tableName="stock_sell_order_queue">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_stock_sell_trade_queue_user_id"
+                <constraints nullable="false" foreignKeyName="fk_stock_sell_order_queue_user_id"
                              references="user_data(id)"/>
             </column>
             <column name="user_stock_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_stock_sell_trade_queue_user_stock_id"
+                <constraints nullable="false" foreignKeyName="fk_stock_sell_order_queue_user_stock_id"
                              references="user_stock(id)"/>
             </column>
             <column name="price" type="numeric(22,2)">

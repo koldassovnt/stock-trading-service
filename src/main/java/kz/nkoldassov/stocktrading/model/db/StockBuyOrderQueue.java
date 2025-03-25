@@ -3,7 +3,7 @@ package kz.nkoldassov.stocktrading.model.db;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record StockBuyTradeQueue(Long id,
+public record StockBuyOrderQueue(Long id,
                                  Long userId,
                                  BigDecimal price,
                                  Long stockId,
