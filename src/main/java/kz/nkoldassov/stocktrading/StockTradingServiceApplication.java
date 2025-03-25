@@ -3,20 +3,16 @@ package kz.nkoldassov.stocktrading;
 import io.javalin.Javalin;
 import kz.nkoldassov.stocktrading.config.ApplicationPropsLoader;
 import kz.nkoldassov.stocktrading.config.LiquibaseRunner;
+import kz.nkoldassov.stocktrading.controller.StockController;
 import kz.nkoldassov.stocktrading.controller.StockOrderController;
+import kz.nkoldassov.stocktrading.controller.UserPortfolioController;
 import kz.nkoldassov.stocktrading.model.dto.StockOrderToBuyDto;
 import kz.nkoldassov.stocktrading.model.dto.StockOrderToSellDto;
 import kz.nkoldassov.stocktrading.repository.*;
 import kz.nkoldassov.stocktrading.repository.impl.*;
 import kz.nkoldassov.stocktrading.scheduler.StockTradeScheduler;
-import kz.nkoldassov.stocktrading.service.StockOrderService;
-import kz.nkoldassov.stocktrading.service.StockService;
-import kz.nkoldassov.stocktrading.service.StockTradeService;
-import kz.nkoldassov.stocktrading.service.UserDataService;
-import kz.nkoldassov.stocktrading.service.impl.StockOrderServiceImpl;
-import kz.nkoldassov.stocktrading.service.impl.StockServiceImpl;
-import kz.nkoldassov.stocktrading.service.impl.StockTradeServiceImpl;
-import kz.nkoldassov.stocktrading.service.impl.UserDataServiceImpl;
+import kz.nkoldassov.stocktrading.service.*;
+import kz.nkoldassov.stocktrading.service.impl.*;
 import kz.nkoldassov.stocktrading.validator.AnnotationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +57,7 @@ public class StockTradingServiceApplication {
         StockService stockService = new StockServiceImpl(stockRepository);
         UserDataService userDataService = new UserDataServiceImpl(userDataRepository);
         StockTradeService stockTradeService = new StockTradeServiceImpl(stockTradeOperationRepository);
+        UserStockService userStockService = new UserStockServiceImpl();
 
         logger.info("L2mBz5mq :: Services initialized");
 
@@ -68,6 +65,9 @@ public class StockTradingServiceApplication {
                 stockOrderService,
                 userDataService,
                 stockService);
+
+        UserPortfolioController userPortfolioController = new UserPortfolioController(userStockService);
+        StockController stockController = new StockController(stockService);
 
         logger.info("7wnMDf2A :: Controllers initialized");
 
@@ -79,24 +79,36 @@ public class StockTradingServiceApplication {
 
         logger.info("8BJhgFTB :: Schedulers initialized and started");
 
-        stockOperationAPIs(app, stockOrderController);
+        initStockOrderAPIs(app, stockOrderController);
+        initUserPortfolioAPIs(app, userPortfolioController);
+        initStockAPIs(app, stockController);
+
+        logger.info("d9TwAmJV :: APIs initialized");
 
     }
 
-    private static void stockOperationAPIs(Javalin app, StockOrderController controller) {
+    private static void initStockOrderAPIs(Javalin app, StockOrderController controller) {
 
-        app.post("/buy", ctx -> {
+        app.post("/orders/v1/buy", ctx -> {
             StockOrderToBuyDto orderToBuyDto = ctx.bodyAsClass(StockOrderToBuyDto.class);
             AnnotationValidator.validate(orderToBuyDto);
             controller.placeBuyOrder().handle(ctx);
         });
 
-        app.post("/sell", ctx -> {
+        app.post("/orders/v1/sell", ctx -> {
             StockOrderToSellDto orderToSellDto = ctx.bodyAsClass(StockOrderToSellDto.class);
             AnnotationValidator.validate(orderToSellDto);
             controller.placeSellOrder().handle(ctx);
         });
 
+    }
+
+    private static void initUserPortfolioAPIs(Javalin app, UserPortfolioController controller) {
+        app.get("/user-portfolios/v1/{userId}", ctx -> controller.loadUserPortfolio().handle(ctx));
+    }
+
+    private static void initStockAPIs(Javalin app, StockController controller) {
+        app.get("/stocks/v1", ctx -> controller.loadStocks().handle(ctx));
     }
 
 }

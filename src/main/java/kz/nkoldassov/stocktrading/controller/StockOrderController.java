@@ -45,7 +45,4 @@ public class StockOrderController {
         };
     }
 
-    //todo add api to get user stocks in UserPortfolioController
-    //todo add api to get stocks in StockController
-
 }
