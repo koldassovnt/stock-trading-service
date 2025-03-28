@@ -20,4 +20,6 @@ public interface StockOrderService {
     Optional<StockSellOrderQueue> loadAndOccupySellOrderByPriceAndStockId(BigDecimal price,
                                                                           Long stockId);
 
+    void unOccupyBuyOrder(StockBuyOrderQueue buyOrder);
+
 }

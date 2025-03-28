@@ -49,8 +49,11 @@ public class StockTradeScheduler {
                         buyOrder.price(),
                         buyOrder.stockId());
 
-                sellOrderOpt.ifPresent(sellOrder ->
-                        stockTradeService.processTradeOrder(buyOrder, sellOrder));
+                if (sellOrderOpt.isPresent()) {
+                    stockTradeService.processTradeOrder(buyOrder, sellOrderOpt.get());
+                } else {
+                    stockOrderService.unOccupyBuyOrder(buyOrder);
+                }
 
             }
 

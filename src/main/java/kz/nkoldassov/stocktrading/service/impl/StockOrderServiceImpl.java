@@ -74,4 +74,9 @@ public class StockOrderServiceImpl implements StockOrderService {
         return stockSellOrderQueueRepository.findAndOccupyByPriceAndStockId(price, stockId);
     }
 
+    @Override
+    public void unOccupyBuyOrder(StockBuyOrderQueue buyOrder) {
+        stockBuyOrderQueueRepository.updateOccupied(buyOrder.id(), null, null);
+    }
+
 }

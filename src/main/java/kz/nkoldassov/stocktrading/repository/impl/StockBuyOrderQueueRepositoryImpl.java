@@ -94,6 +94,30 @@ public class StockBuyOrderQueueRepositoryImpl implements StockBuyOrderQueueRepos
 
     }
 
+    @Override
+    public void updateOccupied(Long id, Integer occupiedId, LocalDateTime occupiedAt) {
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement updateStmt = conn.prepareStatement(UPDATE_AS_OCCUPIED_SQL)) {
+
+            updateStmt.setInt(1, occupiedId);
+
+            if (occupiedAt != null) {
+                updateStmt.setTimestamp(2, Timestamp.valueOf(occupiedAt));
+            } else {
+                updateStmt.setTimestamp(2, null);
+            }
+
+            updateStmt.setLong(3, id);
+
+            updateStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     private void updateAsOccupied(Connection conn, List<StockBuyOrderQueue> buyOrderList) throws SQLException {
 
         try (PreparedStatement updateStmt = conn.prepareStatement(UPDATE_AS_OCCUPIED_SQL)) {
