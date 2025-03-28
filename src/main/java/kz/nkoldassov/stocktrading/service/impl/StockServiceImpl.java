@@ -2,6 +2,7 @@ package kz.nkoldassov.stocktrading.service.impl;
 
 import kz.nkoldassov.stocktrading.exception.NoStockException;
 import kz.nkoldassov.stocktrading.model.db.Stock;
+import kz.nkoldassov.stocktrading.model.dto.StockResponseDto;
 import kz.nkoldassov.stocktrading.repository.StockRepository;
 import kz.nkoldassov.stocktrading.service.StockService;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,11 @@ public class StockServiceImpl implements StockService {
                 .map(Stock::id)
                 .orElseThrow(() -> new NoStockException("No stock by ticker = " + ticker));
 
+    }
+
+    @Override
+    public StockResponseDto loadAll() {
+        return StockResponseDto.of(stockRepository.findAll());
     }
 
 }

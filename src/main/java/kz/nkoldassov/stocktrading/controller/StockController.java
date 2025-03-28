@@ -1,6 +1,7 @@
 package kz.nkoldassov.stocktrading.controller;
 
 import io.javalin.http.Handler;
+import kz.nkoldassov.stocktrading.model.dto.StockResponseDto;
 import kz.nkoldassov.stocktrading.service.StockService;
 
 public class StockController {
@@ -13,7 +14,8 @@ public class StockController {
 
     public Handler loadStocks() {
         return ctx -> {
-          //todo impl
+            StockResponseDto stockResponseDto = stockService.loadAll();
+            ctx.json(stockResponseDto);
         };
     }
 

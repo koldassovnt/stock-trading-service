@@ -46,6 +46,7 @@ public class StockTradingServiceApplication {
         StockTradeOperationRepository stockTradeOperationRepository = new StockTradeOperationRepositoryImpl();
         UserDataRepository userDataRepository = new UserDataRepositoryImpl();
         StockRepository stockRepository = new StockRepositoryImpl();
+        UserStockRepository userStockRepository = new UserStockRepositoryImpl();
 
         logger.info("MVoHZY9V :: Repositories initialized");
 
@@ -57,7 +58,7 @@ public class StockTradingServiceApplication {
         StockService stockService = new StockServiceImpl(stockRepository);
         UserDataService userDataService = new UserDataServiceImpl(userDataRepository);
         StockTradeService stockTradeService = new StockTradeServiceImpl(stockTradeOperationRepository);
-        UserStockService userStockService = new UserStockServiceImpl();
+        UserStockService userStockService = new UserStockServiceImpl(userStockRepository);
 
         logger.info("L2mBz5mq :: Services initialized");
 
